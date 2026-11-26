@@ -3,10 +3,12 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
 const SWOOSHES = [
-  { color: 0x7ed321, radius: 1.34, arc: 2.55, rot: [1.15, 0.25, 0.45], speed: 0.0035 },
-  { color: 0x2f9bff, radius: 1.5, arc: 2.25, rot: [1.85, 0.7, -0.4], speed: -0.0028 },
-  { color: 0xffd000, radius: 1.66, arc: 2.4, rot: [0.42, -0.55, 1.05], speed: 0.0022 },
+  { color: 0x7ed321, radius: 1.2, tube: 0.045, arc: 2.5, rot: [1.15, 0.2, 0.4], speed: 0.0032 },
+  { color: 0x1f8fff, radius: 1.36, tube: 0.045, arc: 2.2, rot: [1.8, 0.65, -0.35], speed: -0.0024 },
+  { color: 0xffd000, radius: 1.52, tube: 0.048, arc: 2.35, rot: [0.4, -0.5, 1.05], speed: 0.002 },
 ];
+
+const BOUND = 1.62;
 
 export default function Planet() {
   const wrapRef = useRef(null);
@@ -18,21 +20,24 @@ export default function Planet() {
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.setClearColor(0x000000, 0);
     wrap.appendChild(renderer.domElement);
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 30);
-    camera.position.set(0, 0.15, 6.6);
+    const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 40);
+    camera.position.set(0, 0.18, 6);
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enablePan = false;
     controls.enableZoom = false;
     controls.enableDamping = true;
-    controls.dampingFactor = 0.08;
+    controls.dampingFactor = 0.07;
+    controls.rotateSpeed = 0.65;
     controls.autoRotate = !reduced;
-    controls.autoRotateSpeed = 0.55;
-    controls.minPolarAngle = Math.PI * 0.28;
-    controls.maxPolarAngle = Math.PI * 0.72;
+    controls.autoRotateSpeed = 0.45;
+    controls.minPolarAngle = 0.25;
+    controls.maxPolarAngle = Math.PI - 0.25;
+    controls.target.set(0, 0, 0);
 
     const map = new THREE.TextureLoader().load("/earth-day.jpg");
     map.colorSpace = THREE.SRGBColorSpace;
@@ -47,13 +52,13 @@ export default function Planet() {
 
     const pivots = SWOOSHES.map((swoosh) => {
       const mesh = new THREE.Mesh(
-        new THREE.TorusGeometry(swoosh.radius, 0.062, 24, 96, swoosh.arc),
+        new THREE.TorusGeometry(swoosh.radius, swoosh.tube, 24, 100, swoosh.arc),
         new THREE.MeshStandardMaterial({
           color: swoosh.color,
-          roughness: 0.38,
-          metalness: 0.04,
+          roughness: 0.35,
+          metalness: 0.05,
           emissive: swoosh.color,
-          emissiveIntensity: 0.18,
+          emissiveIntensity: 0.16,
         })
       );
       mesh.rotation.set(swoosh.rot[0], swoosh.rot[1], swoosh.rot[2]);
@@ -64,13 +69,13 @@ export default function Planet() {
       return pivot;
     });
 
-    scene.add(new THREE.AmbientLight(0xffffff, 0.85));
-    const key = new THREE.DirectionalLight(0xffffff, 1.6);
+    scene.add(new THREE.AmbientLight(0xffffff, 0.9));
+    const key = new THREE.DirectionalLight(0xffffff, 1.5);
     key.position.set(4, 3, 5);
     scene.add(key);
 
     const glow = new THREE.Mesh(
-      new THREE.SphereGeometry(1.12, 64, 64),
+      new THREE.SphereGeometry(1.08, 64, 64),
       new THREE.ShaderMaterial({
         transparent: true,
         side: THREE.BackSide,
@@ -96,15 +101,29 @@ export default function Planet() {
     );
     scene.add(glow);
 
-    const resize = () => {
-      const width = wrap.clientWidth || 1;
-      const height = wrap.clientHeight || 1;
+    const frameCamera = () => {
+      const width = Math.max(wrap.clientWidth, 1);
+      const height = Math.max(wrap.clientHeight, 1);
       renderer.setSize(width, height, false);
       camera.aspect = width / height;
       camera.updateProjectionMatrix();
+
+      const vFov = (camera.fov * Math.PI) / 180;
+      const distForHeight = BOUND / Math.tan(vFov / 2);
+      const distForWidth = distForHeight / camera.aspect;
+      const distance = Math.max(distForHeight, distForWidth) * 1.14;
+
+      const offset = camera.position.clone().sub(controls.target);
+      if (offset.lengthSq() < 0.001) offset.set(0, 0.18, 1);
+      offset.setLength(distance);
+      camera.position.copy(controls.target).add(offset);
+      controls.minDistance = distance;
+      controls.maxDistance = distance;
+      controls.update();
     };
-    resize();
-    const observer = new ResizeObserver(resize);
+
+    frameCamera();
+    const observer = new ResizeObserver(frameCamera);
     observer.observe(wrap);
 
     const stopSpin = () => {
@@ -138,8 +157,7 @@ export default function Planet() {
       scene.traverse((object) => {
         if (object.geometry) object.geometry.dispose();
         if (object.material) {
-          const materials = [].concat(object.material);
-          materials.forEach((material) => {
+          [].concat(object.material).forEach((material) => {
             if (material.map) material.map.dispose();
             material.dispose();
           });
@@ -154,9 +172,8 @@ export default function Planet() {
     <div
       ref={wrapRef}
       className="planet"
-      tabIndex={0}
       role="img"
-      aria-label="The Career Planet globe. Drag to spin it."
+      aria-label="Career Planet globe. Drag to turn it."
     />
   );
 }

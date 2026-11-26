@@ -1,21 +1,18 @@
 :root {
-  --navy: #10256e;
+  --navy: #0e2370;
   --ink: #14224a;
-  --lime: #7ed321;
-  --script: #8ae234;
+  --lime: #6dce22;
 }
 
 * { box-sizing: border-box; }
 
-html, body, #root {
-  height: 100%;
-}
+html, body, #root { height: 100%; }
 
 body {
   margin: 0;
   background: #fff;
-  color: var(--ink);
-  font-family: Nunito, "Segoe UI", sans-serif;
+  color: #fff;
+  font-family: Montserrat, "Segoe UI", sans-serif;
   overflow: hidden;
 }
 
@@ -34,51 +31,29 @@ a { color: inherit; }
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding: 0.85rem 4vw;
+  min-height: 76px;
+  padding: 0.7rem 3vw;
   background: #fff;
-  border-bottom: 1px solid #ececec;
+  border-bottom: 1px solid #e6e6e6;
 }
 
-.brand {
-  text-decoration: none;
-  display: flex;
-  flex-direction: column;
-  line-height: 1;
-}
-
-.name {
-  font-weight: 800;
-  font-size: 1.55rem;
-  letter-spacing: -0.03em;
-  color: var(--navy);
-}
-
-.name sup {
-  font-size: 0.45em;
-  margin-left: 0.1em;
-}
-
-.tag {
-  margin-top: 0.28rem;
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: #5c6788;
-}
+.brand { display: flex; align-items: center; text-decoration: none; }
+.brand img { display: block; height: 52px; width: auto; }
 
 .mycareer {
   flex: none;
   text-decoration: none;
   border: 1.5px solid var(--ink);
-  border-radius: 2px;
-  padding: 0.55rem 0.8rem;
+  color: var(--ink);
+  padding: 0.55rem 0.85rem;
   font-size: 0.72rem;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
 .mycareer:hover { background: var(--navy); color: #fff; border-color: var(--navy); }
-.mycareer:focus-visible, .brand:focus-visible {
+a:focus-visible {
   outline: 2px solid var(--lime);
   outline-offset: 3px;
 }
@@ -86,106 +61,108 @@ a { color: inherit; }
 .stage {
   flex: 1;
   min-height: 0;
-  display: flex;
   background: var(--navy);
-  color: #fff;
 }
 
 .stage-inner {
-  width: min(1240px, 100%);
+  height: 100%;
+  width: min(1360px, 100%);
   margin: 0 auto;
-  min-height: 0;
   display: grid;
-  grid-template-columns: 100px minmax(320px, 1.2fr) minmax(260px, 0.8fr);
+  grid-template-columns: minmax(300px, 440px) minmax(0, 1fr);
   align-items: center;
   gap: clamp(1rem, 3vw, 2.5rem);
-  padding: 1.25rem 4vw 1.5rem;
+  padding: 1.25rem clamp(1rem, 3vw, 2.25rem) 1rem;
 }
 
-.strip {
+.lead {
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1.35rem;
+  min-width: 0;
+}
+
+.photos {
   display: grid;
-  grid-template-rows: repeat(4, 1fr);
-  gap: 6px;
-  height: min(64vh, 520px);
-  padding: 6px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3px;
+  width: min(100%, 320px);
+  height: min(32vh, 248px);
+  padding: 3px;
   background: #fff;
 }
 
-.frame {
-  display: grid;
-  place-items: end center;
-  overflow: hidden;
+.photos img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 18%;
+  display: block;
 }
-
-.frame svg { width: 100%; height: 100%; }
-
-.grow { background: #d7efc4; }
-.cook { background: #f7f1e8; }
-.fire { background: #2a120c; }
-.study { background: #d5e7f8; }
 
 .copy { min-width: 0; }
 
 .rule {
   display: block;
-  width: min(220px, 40%);
+  width: 92px;
   height: 2px;
-  margin-bottom: 1.1rem;
-  background: rgba(255, 255, 255, 0.85);
+  margin-bottom: 0.9rem;
+  background: rgba(255, 255, 255, 0.9);
 }
 
 h1 {
   margin: 0;
   font-weight: 800;
-  font-size: clamp(2.15rem, 3.3vw, 3.55rem);
-  line-height: 0.92;
-  letter-spacing: -0.035em;
+  font-size: clamp(1.7rem, 2.35vw, 2.65rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
 }
-
-.line { white-space: nowrap; }
 
 .script {
   display: block;
-  white-space: nowrap;
-  margin-top: 0.35rem;
-  margin-left: 0.15em;
+  margin-top: 0.45rem;
   font-family: "Caveat Brush", cursive;
+  font-size: clamp(1.55rem, 7.6cqi, 2.45rem);
+  white-space: nowrap;
   font-weight: 400;
-  font-size: 0.78em;
-  line-height: 0.85;
+  line-height: 0.95;
   letter-spacing: 0;
-  color: var(--script);
+  color: var(--lime);
   transform: rotate(-6deg);
   transform-origin: left center;
 }
 
 .planet-slot {
-  position: relative;
   height: 100%;
+  min-width: 0;
   min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15rem;
 }
 
-.planet-slot::before {
-  content: "";
-  position: absolute;
-  left: 16%;
-  right: 16%;
-  bottom: 10%;
-  height: 14%;
-  background: radial-gradient(ellipse, rgba(0, 0, 0, 0.38), transparent 70%);
-  pointer-events: none;
+.planet-frame {
+  container-type: size;
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 0;
+  display: grid;
+  place-items: center;
 }
 
 .planet {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
+  width: min(100cqw, 100cqh);
+  height: min(100cqw, 100cqh);
 }
 
 .planet canvas {
-  width: 100% !important;
-  height: 100% !important;
+  width: 100%;
+  height: 100%;
   display: block;
   cursor: grab;
   touch-action: none;
@@ -193,37 +170,47 @@ h1 {
 
 .planet canvas:active { cursor: grabbing; }
 
-.spin {
-  margin: 0.85rem 0 0 0.35rem;
-  font-family: "Caveat Brush", cursive;
-  font-size: clamp(1.7rem, 2.6vw, 2.4rem);
-  color: var(--script);
-  transform: rotate(-6deg);
-  transform-origin: left center;
+.hint {
+  margin: 0;
+  flex: none;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }
 
 @media (max-width: 860px) {
   body { overflow: auto; }
   .page { height: auto; min-height: 100dvh; }
+  .brand img { height: 42px; }
   .stage-inner {
-    width: 100%;
+    height: auto;
     display: flex;
     flex-direction: column;
-    align-items: stretch;
-    min-height: calc(100dvh - 74px);
-    padding: 1rem 1rem 1.4rem;
+    gap: 1rem;
+    padding: 0.85rem 1rem 1.25rem;
   }
-  .planet-slot { order: -1; height: 62vw; min-height: 280px; }
-  .strip {
-    order: 1;
-    grid-template-rows: none;
+  .planet-slot {
+    order: -1;
+    width: 100%;
+    height: min(88vw, 68vh);
+  }
+  .lead { gap: 0.9rem; width: 100%; }
+  .copy, h1 { width: 100%; max-width: 100%; }
+  .photos {
     grid-template-columns: repeat(4, 1fr);
     width: 100%;
-    height: 96px;
+    height: 34vw;
+    max-height: 150px;
   }
-  h1 { font-size: 2.6rem; }
+  h1 { font-size: 1.65rem; }
+  .script {
+    white-space: normal;
+    font-size: 1.8rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .script, .spin { transform: none; }
+  .script { transform: none; }
 }
