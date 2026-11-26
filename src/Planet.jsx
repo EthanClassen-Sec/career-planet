@@ -66,7 +66,7 @@ export default function Planet() {
             float lum = dot(day, vec3(0.299, 0.587, 0.114));
             float land = smoothstep(0.22, 0.42, lum);
             vec3 ocean = vec3(0.008, 0.03, 0.12);
-            vec3 ground = day * vec3(0.28, 0.24, 0.18) + vec3(0.02, 0.03, 0.05);
+            vec3 ground = day * vec3(0.38, 0.32, 0.22) + vec3(0.03, 0.04, 0.06);
             vec3 color = mix(ocean, ground, land);
             float city = max(max(lights.r, lights.g), lights.b);
             city = smoothstep(0.14, 0.42, city);

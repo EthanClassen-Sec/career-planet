@@ -16,14 +16,6 @@ const TAGS = [
   { label: "Bursaries", href: `${SITE}/training/bursaries/`, tone: "peach" },
 ];
 
-function Spark({ className }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M12 0 13.8 9.1 23 12 13.8 14.9 12 24 10.2 14.9 1 12 10.2 9.1Z" />
-    </svg>
-  );
-}
-
 function Flag() {
   return (
     <svg className="flag" viewBox="0 0 60 40" role="img" aria-label="South African flag">
@@ -119,7 +111,6 @@ export default function App() {
             <Flag />
             <span>Free resources for learners, students and job seekers across South Africa.</span>
           </p>
-          <Spark className="spark spark-copy" />
         </div>
 
         <div className="visual">
@@ -132,19 +123,14 @@ export default function App() {
             <Planet />
           </div>
 
-          <svg className="orbits orbits-front" viewBox="0 0 800 700" aria-hidden="true">
-            <ellipse cx="455" cy="348" rx="292" ry="214" transform="rotate(-16 455 348)" strokeDasharray="160 780" strokeDashoffset="-20" />
-            <ellipse cx="468" cy="368" rx="270" ry="228" className="warm" transform="rotate(22 468 368)" strokeDasharray="190 740" strokeDashoffset="90" />
-          </svg>
-
-          <figure className="shot shot-study">
-            <img src="/job-study.jpg" alt="A student reading" />
+          <figure className="shot shot-student">
+            <img src="/portrait-student.jpg" alt="A student standing in a college library with a book" />
           </figure>
           <figure className="shot shot-work">
-            <img src="/job-fire.jpg" alt="A firefighter in uniform" />
+            <img src="/portrait-work.jpg" alt="Two colleagues working together at a laptop" />
           </figure>
-          <figure className="shot shot-cook">
-            <img src="/job-cook.jpg" alt="A cook at work" />
+          <figure className="shot shot-office">
+            <img src="/portrait-office.jpg" alt="A professional smiling at her desk" />
           </figure>
 
           <div className="opp">
@@ -167,8 +153,6 @@ export default function App() {
             </div>
           </div>
 
-          <Spark className="spark spark-a" />
-          <Spark className="spark spark-b" />
         </div>
       </section>
     </div>
